@@ -1,6 +1,6 @@
 import { Component } from 'react';
 import fetch from 'isomorphic-unfetch';
-
+import Error from './_error';
 import Layout from '../components/Layout';
 
 class About extends Component {
@@ -8,9 +8,10 @@ class About extends Component {
 
   static async getInitialProps() {
     const response = await fetch('https://api.github.com/users/reedbarger');
+    const statusCode = response.status > 200 ? response.status : false;
     const data = await response.json();
 
-    return { user: data };
+    return { user: data, statusCode };
   }
 
   // componentDidMount() {
@@ -22,7 +23,12 @@ class About extends Component {
   // }
 
   render() {
-    const { user } = this.props;
+    const { user, statusCode } = this.props;
+
+    if (statusCode) {
+      return <Error statusCode={statusCode} />;
+    }
+
     return (
       <Layout title="About">
         <p>{user.name}</p>
