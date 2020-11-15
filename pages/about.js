@@ -7,20 +7,12 @@ class About extends Component {
   // state = { user: null };
 
   static async getInitialProps() {
-    const response = await fetch('https://api.github.com/users/reedbarger');
+    const response = await fetch('https://api.github.com/users/akaymu');
     const statusCode = response.status > 200 ? response.status : false;
     const data = await response.json();
 
     return { user: data, statusCode };
   }
-
-  // componentDidMount() {
-  //   fetch('https://api.github.com/users/reedbarger')
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       this.setState({ user: data });
-  //     });
-  // }
 
   render() {
     const { user, statusCode } = this.props;
